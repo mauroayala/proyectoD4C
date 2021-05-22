@@ -1,20 +1,20 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.servicios.ServicioIMCImpl;
 import org.springframework.stereotype.Controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @Controller
 public class ControladorIMCTest {
 
-    private ControladorIMC controladorImc = new ControladorIMC();
+    private ControladorIMC controladorImc = new ControladorIMC(new ServicioIMCImpl());
     private Double altura;
     private Double peso;
     private String motivo;
     private ModelAndView mav;
+    private ServicioIMCImpl servicioIMC = new ServicioIMCImpl();
 
     @Test
     public void siLaAlturaEsInvalidaNoTendriaQuePoderCalcular(){
@@ -45,7 +45,7 @@ public class ControladorIMCTest {
 
     private void dadoQueLaAlturaEsInvalida (Double altura){
 
-        assertThat(controladorImc.validarAltura(altura)).isEqualTo(Boolean.FALSE);
+        assertThat(servicioIMC.validarAltura(altura)).isEqualTo(Boolean.FALSE);
 
     }
 
@@ -73,7 +73,7 @@ public class ControladorIMCTest {
 
     private void dadoQueElPesoEsInvalido(Double peso) {
 
-        assertThat(controladorImc.validarPeso(peso)).isEqualTo(Boolean.FALSE);
+        assertThat(servicioIMC.validarPeso(peso)).isEqualTo(Boolean.FALSE);
 
     }
 
@@ -99,8 +99,8 @@ public class ControladorIMCTest {
 
     private void dadoQueLosDatosSonValidos(Double altura, Double peso) {
 
-        assertThat(controladorImc.validarAltura(altura)).isEqualTo(Boolean.TRUE);
-        assertThat(controladorImc.validarPeso(peso)).isEqualTo(Boolean.TRUE);
+        assertThat(servicioIMC.validarAltura(altura)).isEqualTo(Boolean.TRUE);
+        assertThat(servicioIMC.validarPeso(peso)).isEqualTo(Boolean.TRUE);
 
     }
 }

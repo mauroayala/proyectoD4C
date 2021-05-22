@@ -89,6 +89,7 @@ public class ControladorRegistrarseTest {
     }
 
     private void entoncesElUsuarioNoSeRegistraPor(String motivo) {
+
         assertThat(mav.getModel().get("registrado")).isEqualTo(Boolean.FALSE);
         assertThat(mav.getViewName()).isEqualTo("registro");
         assertThat(mav.getModel().get("error")).isEqualTo(motivo);

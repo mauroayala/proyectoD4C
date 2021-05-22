@@ -15,6 +15,9 @@ public class DatosIMC {
         this.compCorporal = compCorporal;
     }
 
+    public DatosIMC() {
+    }
+
     public Double getAltura() {
         return altura;
     }
