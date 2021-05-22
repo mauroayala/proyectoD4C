@@ -1,4 +1,4 @@
-./idea
-./eclipse
-./lib
-./target
+*.idea/
+*.eclipse/
+*.lib/
+*.target/
