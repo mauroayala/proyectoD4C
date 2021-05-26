@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.DatosIMC;
 import ar.edu.unlam.tallerweb1.servicios.ServicioIMCImpl;
 import org.springframework.stereotype.Controller;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,13 @@ public class ControladorIMCTest {
         altura = 3.80;
         peso = 89.9;
         motivo = "Altura inválida";
+        DatosIMC datos = new DatosIMC();
+        datos.setAltura(altura);
+        datos.setPeso(peso);
 
         dadoQueLaAlturaEsInvalida(altura);
 
-        cuandoCalculoImc(altura, peso);
+        cuandoCalculoImc(datos);
 
         entoncesNoCalculaPorAltura();
     }
@@ -38,9 +42,9 @@ public class ControladorIMCTest {
 
     }
 
-    private void cuandoCalculoImc(Double altura, Double peso) {
+    private void cuandoCalculoImc(DatosIMC datos) {
 
-        mav = controladorImc.calcularImcCompleto(altura, peso);
+        mav = controladorImc.calcularImcCompleto(datos);
     }
 
     private void dadoQueLaAlturaEsInvalida (Double altura){
@@ -55,10 +59,13 @@ public class ControladorIMCTest {
         altura = 1.80;
         peso = 1000.0;
         motivo = "Peso inválido";
+        DatosIMC datos = new DatosIMC();
+        datos.setAltura(altura);
+        datos.setPeso(peso);
 
         dadoQueElPesoEsInvalido(peso);
 
-        cuandoCalculoImc(altura, peso);
+        cuandoCalculoImc(datos);
 
         entoncesNoCalculaPorPeso();
 
@@ -82,10 +89,13 @@ public class ControladorIMCTest {
 
         altura = 1.80;
         peso = 80.0;
+        DatosIMC datos = new DatosIMC();
+        datos.setAltura(altura);
+        datos.setPeso(peso);
 
         dadoQueLosDatosSonValidos(altura, peso);
 
-        cuandoCalculoImc(altura,peso);
+        cuandoCalculoImc(datos);
 
         entoncesSeCalculaExitosamente();
     }

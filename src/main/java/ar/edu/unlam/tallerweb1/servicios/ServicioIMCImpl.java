@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.DatosIMC;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 

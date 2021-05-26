@@ -21,6 +21,11 @@ public class Usuario {
 	private String password;
 	private String rol;
 	private Boolean activo = false;
+	private Double altura;
+	private Double peso;
+	private Double IMC;
+	private String compCorporal;
+	private String nombre;
 	
 	public Long getId() {
 		return id;
@@ -52,18 +57,57 @@ public class Usuario {
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
-
 	public boolean activo() {
 		return activo;
     }
-
     public void activar() {
 		activo = true;
     }
 
-    public Usuario(){}
+	public Double getAltura() {
+		return altura;
+	}
+
+	public void setAltura(Double altura) {
+		this.altura = altura;
+	}
+
+	public Double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(Double peso) {
+		this.peso = peso;
+	}
+
+	public Double getIMC() {
+		return IMC;
+	}
+
+	public void setIMC(Double IMC) {
+		this.IMC = IMC;
+	}
+
+	public String getCompCorporal() {
+		return compCorporal;
+	}
+
+	public void setCompCorporal(String compCorporal) {
+		this.compCorporal = compCorporal;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Usuario(){}
     public Usuario (String email, String password){
 		this.email = email;
 		this.password = password;
 	}
+
 }
