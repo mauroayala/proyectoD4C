@@ -90,7 +90,8 @@ function ventanaSecundaria (URL){
 <section class="ftco-section ftco-no-pt ftco-no-pb" style="    margin-bottom: 1em;">
  <div class="container">
   <div class="row d-flex">
-    <div class="col-md-6 d-flex"  style="background-image: url(images/breakfast-${platos.id_plato}.jpg);">
+    <div class="col-md-6 d-flex"  style="background-image: url(images/breakfast-${platos.id_plato}.jpg);  background-repeat: no-repeat;
+    ">
      </div>
    <div class="col-md-6 ftco-animate makereservation p-4 p-md-5">
      <div class="heading-section ftco-animate mb-5">
