@@ -1,10 +1,8 @@
 package ar.edu.unlam.tallerweb1.controladores;
 import ar.edu.unlam.tallerweb1.modelo.DatosIMC;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.AlturaInvalida;
 import ar.edu.unlam.tallerweb1.servicios.PesoInvalido;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCalcularIMC;
-import ar.edu.unlam.tallerweb1.servicios.ServicioIMCImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +21,7 @@ public class ControladorIMC {
         this.servicio = servicio;
     }
 
-    @RequestMapping("/calcularIMC")
+    @RequestMapping("/calcular")
     public ModelAndView irACalcularIMC() {
 
         ModelMap modelo = new ModelMap();
@@ -33,19 +31,20 @@ public class ControladorIMC {
         return new ModelAndView("calcularIMC", modelo);
     }
 
-    @RequestMapping(path = "/calcular", method = RequestMethod.GET)
-    public ModelAndView calcularImcCompleto(@ModelAttribute DatosIMC datos) {
+    @RequestMapping(path = "/calcularIMC", method = RequestMethod.GET)
+    public ModelAndView calcularImcCompleto(@ModelAttribute("datos") DatosIMC datos) {
 
+        DatosIMC datos1;
         ModelMap model = new ModelMap();
 
         try {
-            servicio.calcularImcCompleto(datos.getAltura(), datos.getPeso());
+            datos1 = servicio.calcularImcCompleto(datos.getAltura(), datos.getPeso());
         } catch (AlturaInvalida e){
             return IMCFallido(model,"Altura inválida");
         } catch (PesoInvalido e){
             return IMCFallido(model, "Peso inválido");
         }
-        return IMCValido(model);
+        return IMCValido(model, datos1);
     }
 
     private ModelAndView IMCFallido(ModelMap model, String motivo){
@@ -54,8 +53,9 @@ public class ControladorIMC {
         return new ModelAndView("calcularIMC", model);
     }
 
-    private ModelAndView IMCValido(ModelMap model){
+    private ModelAndView IMCValido(ModelMap model, DatosIMC datos){
         model.put("IMC", true);
+        model.put("calculo", datos.getIMC());
         return new ModelAndView("home", model);
     }
 

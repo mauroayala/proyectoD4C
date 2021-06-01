@@ -4,14 +4,15 @@
         <title>Calcular IMC</title>
     </head>
     <body>
-    <form:form action="/calcular" method="GET" modelAtributte="datos">
-        <p> Altura en metros: </p> <form:input path="altura" name="al" class="form-control"/><br>
-        <p> Peso en kilos: </p> <form:input path="peso" name="pe" class="form-control"/><br>
+    <form:form action= "/calcularIMC" method="GET" modelAttribute="datos">
 
-        <button type="submit"/> Calcular </button>
+        <p> Altura en metros: </p> <form:input path="altura" name="altura" id= "altura" class="form-control"/> <br>
+        <p> Peso en kilos: </p> <form:input path="peso" name="peso" id= "peso" class="form-control"/> <br>
+
     </form:form>
 
-    ${error}
+    <button type="submit"/> Calcular </button>
 
+    ${error}
     </body>
 </html>
