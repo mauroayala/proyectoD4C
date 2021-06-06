@@ -14,7 +14,7 @@ public interface ServicioReceta {
   
 	List<Receta> buscarReceta(Integer idingrediente);
 
-	List<Receta> buscarIngredientesDeLaReceta(Integer idPlato);
+	List<Receta> buscarIngredientesDeLaReceta(Plato idPlato);
 
  	
 	

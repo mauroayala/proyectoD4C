@@ -1,9 +1,14 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import javax.persistence.Entity; 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
  
@@ -20,9 +25,53 @@ public class Plato {
 	private String nombre; 
 	private String calorias; 
 	private String descripcion; 
+	private String dificultad; 
   
+    @ManyToMany(mappedBy = "platos")
+    private Set<Ingrediente> ingredientes;
+    
+    
+    public String getCalorias() {
+		return calorias;
+	}
 
-    public Long getId_plato() {
+
+	public void setCalorias(String calorias) {
+		this.calorias = calorias;
+	}
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+	public Set<Ingrediente> getIngredientes() {
+		return ingredientes;
+	}
+
+
+	public void setIngredientes(Set<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
+
+	public String getDificultad() {
+		return dificultad;
+	}
+
+
+	public void setDificultad(String dificultad) {
+		this.dificultad = dificultad;
+	}
+
+
+	public Long getId_plato() {
 		return id_plato;
 	}
 

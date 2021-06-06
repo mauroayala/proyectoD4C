@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
- import ar.edu.unlam.tallerweb1.modelo.Plato;
+ import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
+import ar.edu.unlam.tallerweb1.modelo.Plato;
  
 import java.util.List;
 
@@ -63,12 +64,11 @@ return query.list();
 		// TODO Auto-generated method stub
 		return null;
 	}
-
  
- 
-
- 
-
- 
-
+	@Override
+	public Plato damePlatoPorId(Long id) {
+		// TODO Auto-generated method stub
+		return sessionFactory.getCurrentSession().get(Plato.class, id);
+	}
+	
 }

@@ -9,6 +9,7 @@ import org.hibernate.Query;
  import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
  import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.SqlQuery;
@@ -37,6 +38,7 @@ public class RepositorioIngredienteImpl implements RepositorioIngrediente {
         final Session session = this.sessionFactory.getCurrentSession();
         return session.createCriteria(Ingrediente.class)
                 .add( Restrictions.eq("id_categoriaIngrediente", new Integer(id_categoriaIngrediente) ) )
+                .addOrder(Order.asc("nombre"))
                 .list();
     }
 

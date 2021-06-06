@@ -42,6 +42,7 @@ public class ServicioPlatoTest {
 
    
   private void givenBuscoPlatos(ArrayList ingredientes) {
+	  //no va a encontrar platos por que el ingrediente esta vacio, entonces va a pasar por la expected
   servicioPlato.buscarPlatoPorIngredientes(ingredientes);
   }
 	  
@@ -57,6 +58,7 @@ public class ServicioPlatoTest {
 	}
 
 	private void thenUtiliceElRepositoio(ArrayList ingredientes) { 
+		//al tener ingredientes verifico que logre ejecutar la funcion damePlatosPorIngredientes
 		verify(repositorioPlato,times(1)).damePlatosPorIngredientes(ingredientes);
 	}
 	  

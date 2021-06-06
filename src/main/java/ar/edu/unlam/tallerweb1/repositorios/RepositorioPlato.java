@@ -5,6 +5,8 @@ import ar.edu.unlam.tallerweb1.modelo.Plato;
 import java.util.List;
 
  public interface RepositorioPlato {
+	 
+	 Plato damePlatoPorId(Long id);
 
 	List<Plato> damePlatos();
 

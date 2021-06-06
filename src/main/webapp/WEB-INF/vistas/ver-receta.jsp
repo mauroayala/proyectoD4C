@@ -21,14 +21,11 @@
  <c:forEach var="receta" items="${receta}">
   
 <label>Ingrediente:</label> 
- <c:forEach var="ingrediente" items="${listaIngredientesUtilizados}">
-  <c:if test="${ingrediente.id == receta.id_ingrediente}">
- ${ingrediente.nombre}/
- </c:if>
- </c:forEach> 
  
-  
-<label>Cantidad:</label>${receta.cantidad}<br>
+${receta.ingrediente.nombre}
+   
+   
+<label>Cantidad:</label>${receta.cantidad}Gr.<br>
  
 </c:forEach> 
  

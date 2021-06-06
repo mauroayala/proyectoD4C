@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
  
-import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
+import ar.edu.unlam.tallerweb1.modelo.Ingrediente;  
 import ar.edu.unlam.tallerweb1.modelo.Plato;
 import ar.edu.unlam.tallerweb1.modelo.Receta;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -9,6 +9,8 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioIngrediente;
 import ar.edu.unlam.tallerweb1.servicios.ServicioReceta;
 import ar.edu.unlam.tallerweb1.servicios.IngredientesVacios;
 import ar.edu.unlam.tallerweb1.servicios.PlatoVacio;
+import ar.edu.unlam.tallerweb1.servicios.ServicioIngrediente;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPlato;
 
 import org.hibernate.SessionFactory;
 //import org.hibernate.SessionFactory;
@@ -44,11 +46,15 @@ public class ControladorRecetaTest  {
     private ControladorReceta controladorReceta;  
     private ModelAndView mav; 
     private ServicioReceta servicioReceta;  
+    private ServicioIngrediente servicioIngrediente;  
+    private ServicioPlato servicioPlato;  
      
    @Before
    public void init() {
+	   servicioIngrediente = mock(ServicioIngrediente.class);
 	   servicioReceta = mock(ServicioReceta.class);
-	   controladorReceta = new ControladorReceta(servicioReceta);
+	   servicioPlato= mock(ServicioPlato.class);
+	   controladorReceta = new ControladorReceta(servicioReceta,servicioIngrediente,servicioPlato);
    }
 
      
@@ -58,13 +64,19 @@ public class ControladorRecetaTest  {
     public void siTengoPlatoEncuentroReceta(){
     	      	
  		List<Receta> listaReceta= new LinkedList<>();
- 		Integer idPlato = 1;
- 		Long idIngrediente = (long) 1;
- 		String cantidad = "1";
- 		listaReceta.add(new Receta(idPlato,idIngrediente,cantidad));
- 		listaReceta.add(new Receta(idPlato,idIngrediente,cantidad));
+ 		Ingrediente ingrediente= new Ingrediente("Pollo",2);
+ 		Ingrediente ingrediente2= new Ingrediente("Lechuga",2);
+
  		
-		when(servicioReceta.buscarIngredientesDeLaReceta(idPlato)).thenReturn(listaReceta);
+ 		Integer idPlato = 1;
+ 		Plato platoNew=new Plato("Pollo y Lechuga");
+ 		String cantidad = "1";
+ 		Long idIngrediente= (long) 1;
+ 		listaReceta.add(new Receta(platoNew,ingrediente,cantidad));
+ 		listaReceta.add(new Receta(platoNew,ingrediente2,cantidad));
+ 		
+		when(servicioReceta.buscarIngredientesDeLaReceta(platoNew)).thenReturn(listaReceta);
+		when(servicioIngrediente.buscarPorId(idIngrediente)).thenReturn(ingrediente);
 
     	whenSepuedeMostrarLaReceta(idPlato);
     	thanObtengoReceta();
@@ -91,8 +103,9 @@ public class ControladorRecetaTest  {
     	      	
  		List<Receta> listaReceta= new LinkedList<>();
  		Integer idPlato = 1; 
- 		
-		when(servicioReceta.buscarIngredientesDeLaReceta(idPlato)).thenReturn(listaReceta);
+ 		Plato platoNew=new Plato("Pollo y Lechuga");
+
+		when(servicioReceta.buscarIngredientesDeLaReceta(platoNew)).thenReturn(listaReceta);
 
     	whenNoEncuentroLaRecetaDelPlato(idPlato);
     	thanObtengoRecetaVacia();
@@ -115,10 +128,11 @@ public class ControladorRecetaTest  {
     public void siNoTengoIdNoTengoReceta(){
     	      	
   		Integer idPlato = null; 
- 		
+ 		Plato platoNew=new Plato("Pollo y Lechuga");
+
      	doThrow(PlatoVacio.class)
      	.when(servicioReceta)
-     	.buscarIngredientesDeLaReceta(idPlato);
+     	.buscarIngredientesDeLaReceta(platoNew);
      	
      	
     	whenNoEncuentroLaRecetaDelPlato(idPlato);

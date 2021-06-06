@@ -35,12 +35,12 @@ public class ServicioRecetaImpl implements ServicioReceta {
 	}
 
 	@Override
-	public List<Receta> buscarIngredientesDeLaReceta(Integer idPlato) {
+	public List<Receta> buscarIngredientesDeLaReceta(Plato plato) {
 	 
-		if(idPlato==null) {
+		if(plato==null) {
 			throw new PlatoVacio();
 		} 
-  		return repositorioReceta.dameRecetasPorPlato(idPlato);
+  		return repositorioReceta.dameRecetasPorPlato(plato);
 
 	}
 

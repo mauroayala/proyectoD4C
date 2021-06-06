@@ -33,7 +33,7 @@ public class ServicioIngredienteTest {
     	repositorioIngrediente = mock (RepositorioIngrediente.class);
     	servicioIngrediente= new ServicioIngredienteImpl(repositorioIngrediente);
     }
-    //1.40
+   
   
 
 

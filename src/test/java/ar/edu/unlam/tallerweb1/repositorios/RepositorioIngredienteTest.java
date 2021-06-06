@@ -40,11 +40,7 @@ public class RepositorioIngredienteTest extends SpringTest{
 	 
 
 
-private void thenLoPuedoBuscar(Long id) {
-Ingrediente ingredienteBuscado =	repositorio.buscarPor(id);
-assertThat(ingredienteBuscado).isNotNull();
-}
- 
+
  
 
 private Ingrediente givenExisteIngrediente(String nombre , Integer idIngrediente) {
@@ -95,15 +91,7 @@ private List<Ingrediente> whenLoPuedoBuscarCategoria(Integer categoria) {
 }
 
 
-
-private void thenLoPuedoEncontrar(Ingrediente ingredienteBuscado) {
-	// dos por que primero que encuentre algo y luego veo si es lo que quiero
-	//assertThat(ingredienteBuscado).isNotNull();
-//	assertThat(ingredienteBuscado.getNombre()).isEqualTo("Tomate");
-}
-
-
-
+ 
  
  
  

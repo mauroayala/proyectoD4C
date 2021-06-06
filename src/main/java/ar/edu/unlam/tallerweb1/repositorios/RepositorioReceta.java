@@ -10,6 +10,6 @@ import java.util.List;
 	 
 List<Receta> dameRecetas(Integer idIngrediente);
 
-List<Receta> dameRecetasPorPlato(Integer idPlato);
+List<Receta> dameRecetasPorPlato(Plato idPlato);
 
  }

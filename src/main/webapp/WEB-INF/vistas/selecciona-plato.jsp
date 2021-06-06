@@ -47,8 +47,8 @@ function ventanaSecundaria (URL){
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a href="index.html" class="nav-link">Indice Masa Muscular</a></li>
-					<li class="nav-item"><a href="about.html" class="nav-link">¿Que puedo cocinar?</a></li> 
+					<li class="nav-item"><a href="seleccionar-ingrediente" class="nav-link">Indice Masa Muscular</a></li>
+					<li class="nav-item"><a href="seleccionar-ingrediente" class="nav-link">¿Que puedo cocinar?</a></li> 
 				</ul>
 			</div>
 		</div>
@@ -96,9 +96,11 @@ function ventanaSecundaria (URL){
    <div class="col-md-6 ftco-animate makereservation p-4 p-md-5">
      <div class="heading-section ftco-animate mb-5">
       <h2 class="mb-4">${platos.nombre} </h2>
+      <label>Calorías:</label>${platos.calorias} kcal<br>
+      <label>Dificultad:</label>${platos.dificultad}<br>
+
       <p>${platos.descripcion}
       </p>
-      <label>Calorias:</label>${platos.calorias}<br>
       
       <div class="col-md-12" style="text-algin:center;"> 
       <p><a  href="javascript:ventanaSecundaria('muestroReceta?idPlato=${platos.id_plato}')" 

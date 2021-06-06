@@ -28,87 +28,6 @@
 	</head>
 	<body>
 	
-	 
- <script type='text/javascript'>
- function validarForm(){
-	 
-	    var obj2 = document.forms.prueba.ingredientes;
-
-	    var obj1 = document.forms.prueba.ingredientes1;
-
-		for (var i=0; opt=obj1.options[i]; i++){
-	    if (opt.selected) {
-	        var valor=opt.value; // almacenar value
-	        var txt=obj1.options[i].text; // almacenar el texto
-	        
- 	  		var opc = new Option(txt,valor,false,true);   
-	    
- 	        eval(obj2.options[obj2.options.length]=opc);    
-	  	}
-		}
-		
-		
-	    var obj22 = document.forms.prueba.ingredientes2;
-
-		for (var i=0; opt=obj22.options[i]; i++){
-	    if (opt.selected) {
-	        var valor=opt.value; // almacenar value
-	        var txt=obj22.options[i].text; // almacenar el texto
- 	  		var opc = new Option(txt,valor,false,true);   
-	    
- 	        eval(obj2.options[obj2.options.length]=opc);    
-	  	} 
-		}
-		
-	    var obj3 = document.forms.prueba.ingredientes3;
-
-		for (var i=0; opt=obj3.options[i]; i++){
-	    if (opt.selected) {
-	        var valor=opt.value; // almacenar value
-	        var txt=obj3.options[i].text; // almacenar el texto
- 	  		var opc = new Option(txt,valor,false,true);   
-	    
- 	        eval(obj2.options[obj2.options.length]=opc);    
-	  	} 
-		}
-		
-	    var obj4 = document.forms.prueba.ingredientes4;
-
-		for (var i=0; opt=obj4.options[i]; i++){
-	    if (opt.selected) {
-	        var valor=opt.value; // almacenar value
-	        var txt=obj4.options[i].text; // almacenar el texto
-	  		var opc = new Option(txt,valor,false,true);   
-	    
- 	        eval(obj2.options[obj2.options.length]=opc);    
-	  	} 
-		}
-		
-	 
-	    var obj5 = document.forms.prueba.ingredientes5;
-
-		for (var i=0; opt=obj5.options[i]; i++){
-	    if (opt.selected) {
-	        var valor=opt.value; // almacenar value
-	        var txt=obj5.options[i].text; // almacenar el texto
- 	  		var opc = new Option(txt,valor,false,true);   
-	    
- 	        eval(obj2.options[obj2.options.length]=opc);    
-	  	} 
-		}
- 	  if(document.forms.prueba.ingredientes.value==""){
- 			
-  
-	  		var opc = new Option("","",false,true);   
-	    
-	        eval(obj2.options[obj2.options.length]=opc);    
- 	  }
- 	  
-	 return true;
-	   
-	}
-	</script>
-
 	
 		
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -134,7 +53,7 @@
 			<div class="row no-gutters slider-text justify-content-center" style="    margin-top: 9em;">
 				<div class="col-md-9 ftco-animate text-center mb-5">
 					<h1 class="mb-2 bread"> APP UNLAM</h1>
-					<p class="breadcrumbs"><span class="mr-2"><a href="">Seleccione sus ingredientes
+					<p class="breadcrumbs"><span class="mr-2"><a href="">Hacer Evaluacion
  </a></span>  </p>
 				</div>
 			</div>
@@ -155,19 +74,16 @@
             </c:if>	
             
             
- 					<h2 class="mb-4">Seleccione sus ingredientes</h2>
+ 					<h2 class="mb-4">Test ¿Está consumiendo demasiadas grasas?</h2>
 				</div>
 			</div>	
 			<div class="row">
 			
             
             
-<form class="" name="prueba"  action="busco-plato"  onsubmit="return validarForm();" style="width: 100%;">
+<form class="" name="prueba"  action="verifico-Diagnostico"   style="width: 100%;">
  
-<select name="ingredientes[]" id="ingredientes" multiple style="display:none"></select>
  
-
-
 
 
 
@@ -177,109 +93,35 @@
    
  		
             
-				<div class="col-md-6 col-lg-2 ftco-animate">
+				<div class="col-md-12 col-lg-12 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url(images/verduras.jpg);"></div>
 						<div class="text px-4 pt-2">
-							<h3>Frutas y Verduras</h3>
-							<div class="faded">
-				 <select name="ingredientes1[]" id="ingredientes1" multiple>
-				 <c:forEach var="verduras" items="${verduras}">
-				 <option value="<c:out value="${verduras.id}"/>">
-				  <c:out value="${verduras.nombre}"/>
-				  </option>
+ 							<div class="faded">
+ 							
+				 <c:forEach var="preguntas" items="${preguntas}">
+				 
+				<label><c:out value="${preguntas.pregunta}"/>
+				</label><br>
+				
+				<c:out value="${preguntas.respuesta_a}"/>
+				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="a" required><br>
+				<c:out value="${preguntas.respuesta_b}"/>				
+				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="b"><br>
+
+				<c:out value="${preguntas.respuesta_c}"/>				
+				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="c"><br>
+				<br>
 				</c:forEach>
-				</select>
 
 							</div>
 						</div>
 					</div>
 				</div>
 				
-				
-								<div class="col-md-6 col-lg-2 ftco-animate">
-					<div class="staff">
-						<div class="img" style="background-image: url(images/lunch-7.jpg);"></div>
-						<div class="text px-4 pt-2">
-							<h3>Carnes</h3>
-							<div class="faded">
-							 <select name="ingredientes2[]" id="ingredientes2" multiple>
-						 <c:forEach var="carnes" items="${carnes}">
-						 <option value="<c:out value="${carnes.id}"/>">
-						  <c:out value="${carnes.nombre}"/>
-						  </option>
-						</c:forEach>
-						</select>
 
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-								<div class="col-md-6 col-lg-2 ftco-animate">
-					<div class="staff">
-						<div class="img" style="background-image: url(images/lacteos.jpg);"></div>
-						<div class="text px-4 pt-2">
-							<h3>Lacteos</h3>
-							<div class="faded">
-				 <select name="ingredientes3[]"  id="ingredientes3"  multiple>
-				 <c:forEach var="lacteos" items="${lacteos}">
-				 <option value="<c:out value="${lacteos.id}"/>">
-				  <c:out value="${lacteos.nombre}"/>
-				  </option>
-				</c:forEach>
-				</select>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-								<div class="col-md-6 col-lg-2 ftco-animate">
-					<div class="staff">
-						<div class="img" style="background-image: url(images/harinas.jpg);"></div>
-						<div class="text px-4 pt-2">
-							<h3>Harinas</h3>
-							<div class="faded">
-		
-					 <select name="ingredientes4[]" id="ingredientes4"  multiple>
-					 <c:forEach var="harinas" items="${harinas}">
-					 <option value="<c:out value="${harinas.id}"/>">
-					  <c:out value="${harinas.nombre}"/>
-					  </option>
-					</c:forEach>
-					</select>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				
-								<div class="col-md-6 col-lg-2 ftco-animate">
-					<div class="staff">
-						<div class="img" style="background-image: url(images/conservas.png);"></div>
-						<div class="text px-4 pt-2">
-							<h3>Conservas</h3>
-							<div class="faded">
-			
-				 <select name="ingredientes5[]" id="ingredientes5"  multiple>
-				 <c:forEach var="conservas" items="${conservas}">
-				 <option value="<c:out value="${conservas.id}"/>">
-				  <c:out value="${conservas.nombre}"/>
-				  </option>
-				</c:forEach>
-				</select>
-
-							</div>
-						</div>
-					</div>
-				</div>
 	<div class="col-md-12 col-lg-12 ftco-animate" style=" margin-top: 5em;text-align: center;">
 			
-			     <button type="submit" class="btn btn-success" >Buscar Plato</button>
+			     <button type="submit" class="btn btn-success" >Finalizar Evaluacion</button>
 			     	</div>
  		</form>		  
  		

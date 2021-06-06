@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
+import ar.edu.unlam.tallerweb1.modelo.Plato;
 import ar.edu.unlam.tallerweb1.modelo.Receta;
 
 import java.util.List;
@@ -34,10 +35,10 @@ public class RepositorioRecetaImpl implements RepositorioReceta{
 
 
 	@Override
-	public List<Receta> dameRecetasPorPlato(Integer idPlato) {
+	public List<Receta> dameRecetasPorPlato(Plato plato) {
         final Session session = this.sessionFactory.getCurrentSession();
         return session.createCriteria(Receta.class)
-                .add( Restrictions.eq("id_plato", new Integer(idPlato) ) )
+                .add( Restrictions.eq("plato", plato ) )
                 .list();
 	}
 

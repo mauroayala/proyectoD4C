@@ -40,6 +40,16 @@ public class ServicioPlatoImpl implements ServicioPlato {
  		return repositorioPlato.damePlatosPorIngredientes(ingredientes);
  		
 	}
+
+	@Override
+	public Plato buscarPorId(Integer id_plato) { 
+		if(id_plato==null) {
+			throw new PlatoVacio();
+		} 
+		
+ 		return repositorioPlato.damePlatoPorId((long) id_plato);
+
+	}
     
     
  

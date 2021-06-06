@@ -40,13 +40,13 @@ public class ServicioRecetaTest {
     
   @Test(expected = PlatoVacio.class)
   public void noTengoIdPlatoEntoncesNoTengoReceta() {
-  	Integer idPlato= null;
-  	givenBuscoReceta(idPlato);
+	  Plato plato= null;
+	  givenBuscoReceta(plato);
 	  
   }
 
-	private void givenBuscoReceta(Integer idPlato) {
-		servicioReceta.buscarIngredientesDeLaReceta(idPlato);
+	private void givenBuscoReceta(Plato plato) {
+		servicioReceta.buscarIngredientesDeLaReceta(plato);
 	}
 	  
 
@@ -54,14 +54,14 @@ public class ServicioRecetaTest {
 	 
 	  @Test
 	  public void tengoPlatoDevuelvoReceta() { 
-  		Integer idPlato = 1; 
-		  	givenBuscoReceta(idPlato);
-		  	thenUtiliceElRepositoio(idPlato);
+			Plato plato=new Plato("Pollo y Lechuga");
+		  	givenBuscoReceta(plato);
+		  	thenUtiliceElRepositoio(plato);
 		  
 	  }
 
-	private void thenUtiliceElRepositoio(Integer idPlato) { 
-		verify(repositorioReceta,times(1)).dameRecetasPorPlato(idPlato);
+	private void thenUtiliceElRepositoio(Plato plato) { 
+		verify(repositorioReceta,times(1)).dameRecetasPorPlato(plato);
 	}
 	  
 

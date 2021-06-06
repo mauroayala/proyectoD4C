@@ -11,6 +11,8 @@ public interface ServicioPlato {
 
   
  
+	Plato buscarPorId(Integer id_plato);
+	
 	List<Plato> buscarPlato(String nombre);
 
 	List<Plato> damePlatos();
