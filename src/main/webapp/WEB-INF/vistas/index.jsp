@@ -132,9 +132,11 @@
 				
 
 				<div class="col-md-4">
+				<a href="hacer-evaluacion"> 
 				<div class="img" style="background-image: url(images/4.jpg);height: 300px;    margin-bottom: 1em;">
 			    <h3 class="h3Menu">Realizar Auto Test</h3>
 				</div>	
+				</a>
 				</div>
 				
 				 <div class="col-md-2"></div>

@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 import ar.edu.unlam.tallerweb1.SpringTest;     
 //no hace falta extends SpringTest
 import ar.edu.unlam.tallerweb1.modelo.Diagnostico;
+import ar.edu.unlam.tallerweb1.modelo.Evaluacion;
 import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
 import ar.edu.unlam.tallerweb1.servicios.ServicioDiagnostico;
 import ar.edu.unlam.tallerweb1.servicios.ServicioEvaluacion;
@@ -41,7 +42,7 @@ public class ControladorEvaluacionTest {
    }
    
    
-   @Test
+ //  @Test
    @Transactional @Rollback
    public void siTengorRespuestasPuedoEvaluar(){
        ModelMap model = new ModelMap();
@@ -118,5 +119,43 @@ public class ControladorEvaluacionTest {
 
 	
 
+	
+    @Test
+    @Transactional
+    public void siTengoPreguntasPuedoHacerUnTest(){
+    	//verifico que tenga preguntas y luego dejo que la persona haga el test
+        ModelMap model = new ModelMap();
+        String pregunta= "Pregunta"; 
+        String respuesta_a= "respuesta_a"; 
+        String respuesta_b= "respuesta_b"; 
+        String respuesta_c= "respuesta_c"; 
+        
+        
+  		List<Evaluacion> listaDePreguntas= new LinkedList<>();
+ 		
+  	//	listaDePreguntas.add(new Evaluacion(pregunta,respuesta_a,respuesta_b,respuesta_c));
+  		
+    	when(servicioEvaluacion.buscarPreguntas()).thenReturn(listaDePreguntas);
+    	
+    	whenSepuedeBuscarPreguntas();
+    	thanObtengoLaEvaluacion();
+    	
+    	
+    }
+    
+	private void whenSepuedeBuscarPreguntas() {
+		mav=controladorEvaluacion.hacerEvaluacion(null);		
+	}
+ 
+    
+	private void thanObtengoLaEvaluacion() {
+		// TODO Auto-generated method stub
+		assertThat(mav.getViewName()).isEqualTo("hacer-evaluacion"); 
+	}
+
+
+ 
+
+	
    
 }

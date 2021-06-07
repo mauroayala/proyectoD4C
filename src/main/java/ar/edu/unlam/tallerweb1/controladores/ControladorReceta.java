@@ -49,32 +49,26 @@ public class ControladorReceta {
  
           try {
         	  Plato plato = servicioPlato.buscarPorId(idPlato);
-        	List<Receta> resultadoBusqueda =  servicioReceta.buscarIngredientesDeLaReceta(plato); 
+        	  List<Receta> resultadoBusqueda =  servicioReceta.buscarIngredientesDeLaReceta(plato); 
+              model.put("receta",resultadoBusqueda);
               if (resultadoBusqueda.isEmpty()){
                   model.put("receta",null);
                   model.put("msj","No se encontro la receta.");  
-                  return new ModelAndView("ver-receta", model);
-
+ 
               } 
-              
-       		List<Ingrediente> listaIngredientesUtilizados= new LinkedList<>();
-
-           /*   for (Receta receta: resultadoBusqueda) {
-            	Long idIngrediente=receta.getId_ingrediente();
-               	Ingrediente ingrediente =  servicioIngrediente.buscarPorId(idIngrediente); 
-               	listaIngredientesUtilizados.add(ingrediente);
-            	}
-              
-              model.put("listaIngredientesUtilizados",listaIngredientesUtilizados);*/
-              model.put("receta",resultadoBusqueda);
-              return new ModelAndView("ver-receta", model);
 
           } 
           catch (PlatoVacio p){
-              model.put("msj","No se encontro una receta para el plato.");
+              model.put("msj","El codigo del plato no es correcto.");
               return new ModelAndView("ver-receta", model);
 
           }
+          
+          
+          
+          return new ModelAndView("ver-receta", model);
+
+          
           
        }
       

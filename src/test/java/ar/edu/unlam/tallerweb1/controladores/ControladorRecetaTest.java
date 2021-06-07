@@ -75,8 +75,8 @@ public class ControladorRecetaTest  {
  		listaReceta.add(new Receta(platoNew,ingrediente,cantidad));
  		listaReceta.add(new Receta(platoNew,ingrediente2,cantidad));
  		
+		when(servicioPlato.buscarPorId(idPlato)).thenReturn(platoNew);
 		when(servicioReceta.buscarIngredientesDeLaReceta(platoNew)).thenReturn(listaReceta);
-		when(servicioIngrediente.buscarPorId(idIngrediente)).thenReturn(ingrediente);
 
     	whenSepuedeMostrarLaReceta(idPlato);
     	thanObtengoReceta();
@@ -101,7 +101,7 @@ public class ControladorRecetaTest  {
     @Transactional
     public void tengoPlatoSinReceta(){
     	      	
- 		List<Receta> listaReceta= new LinkedList<>();
+ 		List<Receta> listaReceta= null;
  		Integer idPlato = 1; 
  		Plato platoNew=new Plato("Pollo y Lechuga");
 
@@ -131,9 +131,9 @@ public class ControladorRecetaTest  {
  		Plato platoNew=new Plato("Pollo y Lechuga");
 
      	doThrow(PlatoVacio.class)
-     	.when(servicioReceta)
-     	.buscarIngredientesDeLaReceta(platoNew);
-     	
+     	.when(servicioPlato)
+     	.buscarPorId(idPlato);
+ 
      	
     	whenNoEncuentroLaRecetaDelPlato(idPlato);
     	thanNoTengoReceta();
@@ -141,7 +141,7 @@ public class ControladorRecetaTest  {
 
 
     private void thanNoTengoReceta() {
-		assertThat(mav.getModel().get("msj")).isEqualTo("No se encontro una receta para el plato."); 		
+		assertThat(mav.getModel().get("msj")).isEqualTo("El codigo del plato no es correcto."); 		
 	}
 
 }

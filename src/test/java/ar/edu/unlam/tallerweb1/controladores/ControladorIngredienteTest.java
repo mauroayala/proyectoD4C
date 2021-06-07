@@ -39,12 +39,7 @@ public class ControladorIngredienteTest {
     @Test
     @Transactional
     public void siTengoIngredientesPuedoBuscar(){
-        ModelMap model = new ModelMap();
-        Integer verduras = 1; 
-        
-        model.put("verduras",servicioIngrediente.buscarPorCategoria(verduras)); 
-        
-         
+         Integer verduras = 1;  
  		List<Ingrediente> listaDeIngredientes = new LinkedList<>();
  		
  		listaDeIngredientes.add(new Ingrediente("Choclo",1));
