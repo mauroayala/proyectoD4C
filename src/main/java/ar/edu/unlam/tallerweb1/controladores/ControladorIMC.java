@@ -26,13 +26,12 @@ public class ControladorIMC {
 
         ModelMap modelo = new ModelMap();
         DatosIMC datos = new DatosIMC();
-        modelo.put("usuario", datos);
-
+        modelo.put("datosIMC", datos);
         return new ModelAndView("calcularIMC", modelo);
     }
 
-    @RequestMapping(path = "/calcularIMC", method = RequestMethod.GET)
-    public ModelAndView calcularImcCompleto(@ModelAttribute("datos") DatosIMC datos) {
+    @RequestMapping(path = "/calcularImcCompleto", method = RequestMethod.POST)
+    public ModelAndView calcularImcCompleto(@ModelAttribute("datosIMC") DatosIMC datos) {
 
         DatosIMC datos1;
         ModelMap model = new ModelMap();
@@ -55,8 +54,9 @@ public class ControladorIMC {
 
     private ModelAndView IMCValido(ModelMap model, DatosIMC datos){
         model.put("IMC", true);
-        model.put("calculo", datos.getIMC());
-        return new ModelAndView("home", model);
+        model.put("IMCCalculado", datos.getIMC());
+        model.put("compCorporalCalculada", datos.getIMC());
+        return new ModelAndView("index", model);
     }
 
 }

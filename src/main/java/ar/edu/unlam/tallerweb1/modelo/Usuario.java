@@ -19,6 +19,7 @@ public class Usuario {
 	// el atributo, la misma admite nulos, y el tipo de dato se deduce del tipo de dato de java.
 	private String email;
 	private String password;
+	private String confirmaPassword;
 	private String rol;
 	private Boolean activo = false;
 	private Double altura;
@@ -105,7 +106,13 @@ public class Usuario {
 	}
 
 	public Usuario(){}
-    public Usuario (String email, String password){
+    public Usuario (String email, String password, String confirmaPassword){
+		this.email = email;
+		this.password = password;
+		this.confirmaPassword = confirmaPassword;
+	}
+
+	public Usuario (String email, String password){
 		this.email = email;
 		this.password = password;
 	}
