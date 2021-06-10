@@ -139,4 +139,4 @@ target/test-classes/ar/edu/unlam/tallerweb1/servicios/ServicioIMCTest.class
 target/test-classes/ar/edu/unlam/tallerweb1/SpringTest.class
 target/test-classes/log4j.properties
 target/test-classes/test-applicationContext.xml
-target/test-classes/test-hibernateContext.xml
+target/test-classes/test-hibernateContext.xml 
