@@ -1,45 +1,59 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-
+import ar.edu.unlam.tallerweb1.modelo.DatosDeRegistro;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.servicios.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller //MVC -> ModeloVistaConstrolador. La vista es donde se muestran los datos, el modelo es donde viajan los datos a la vista y el controlador orquesta el flujo.
 //por eso generalmente los controladores devuelven un objeto del tipo model and view
 
 public class ControladorRegistrarse {
 
-    private Map <String, Usuario> tablaUsuarios = new HashMap<>(); //para podes guardar los usuarios registrados asi no registrar los que ya están
+    private ServicioRegistrarse servicio;
 
-    public ModelAndView registrar(String email, String clave, String confirmarClave){
+    @Autowired
+    public ControladorRegistrarse(ServicioRegistrarse servicio) {
+            this.servicio = servicio;
+    }
+
+
+    @RequestMapping("/registro")
+    public ModelAndView irARegistrar() {
+
+        ModelMap modelo = new ModelMap();
+        DatosDeRegistro datos = new DatosDeRegistro();
+        modelo.put("datosDeRegistro", datos);
+        return new ModelAndView("registro", modelo);
+    }
+
+    @RequestMapping(value = "/registrar", method = RequestMethod.POST)
+    public ModelAndView registrar(@ModelAttribute("datosDeRegistro") DatosDeRegistro datosDeRegistro){
         ModelMap model = new ModelMap();
-        if(!clave.equals(confirmarClave)){
-            return registroFallido(model, "claves no coinciden");
+        try {
+            servicio.registrar(datosDeRegistro);
+        } catch (ClavesNoCoinciden e){
+            return registroFallido(model,"Las claves no coinciden");
+        } catch (EmailInvalido e){
+            return registroFallido(model, "El email es inválido");
+        } catch (ClaveInvalida e){
+        return registroFallido(model, "El clave es inválida");
+        } catch (UsuarioExistente e){
+            return registroFallido(model, "Ya se registró un usuario con este email");
         }
-        if (!email.contains("@")) {
-            return registroFallido(model, "email invalido");
-        }
-        if (!isValidPassword(clave)) {
-            return registroFallido(model, "contraseña invalida");
-        }
-        if(!tablaUsuarios.containsKey(email)) {
-            tablaUsuarios.put(email, new Usuario(email, clave));
-            //registrado = true;//model.put("registrado", Boolean.TRUE); ->dentro del model (model map) -> id - variable
-            //vista = "login";//return new ModelAndView ("login", model); // (model and view) -> vista - model map
-            return registroExitoso(model);
-        } else {
-            return registroFallido(model, "usuario ya existe");
-        }
+        return registroExitoso(model);
     }
 
     private ModelAndView registroExitoso(ModelMap model){
         model.put("registrado", true);
+        Usuario usuario = new Usuario();
+        model.put("usuario", usuario);
         return new ModelAndView("login", model);
     }
 
@@ -49,16 +63,5 @@ public class ControladorRegistrarse {
         return new ModelAndView("registro", model);
     }
 
-    public static boolean isValidPassword(String password) {
-
-        String regex = "^(?=.*[0-9])"
-                + "(?=.*[a-z])(?=.*[A-Z])"
-                + "(?=\\S+$).{7,20}$";
-
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(password);
-
-        return m.matches();
-    }
 }
 

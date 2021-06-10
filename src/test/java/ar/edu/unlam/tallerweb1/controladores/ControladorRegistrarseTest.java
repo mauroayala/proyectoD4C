@@ -1,33 +1,42 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.DatosDeRegistro;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioRegistrarse;
+import ar.edu.unlam.tallerweb1.servicios.ServicioRegistrarseImpl;
+import ar.edu.unlam.tallerweb1.servicios.UsuarioExistente;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @Controller
 public class ControladorRegistrarseTest {
 
-    private final Usuario USUARIO = usuario("constanza@gmail.com", "123Cons"); // se crea estático así no se puede cambiar en otra ocasión
-    private ControladorRegistrarse controladorRegistro = new ControladorRegistrarse(); // creo una instancia de controlador así puedo usarlo
+    private final Usuario USUARIO = usuario("constanza@gmail.com", "123Constanza"); // se crea estático así no se puede cambiar en otra ocasión
+    private ControladorRegistrarse controlador;
+    private ServicioRegistrarse servicio;
     private ModelAndView mav;
 
-    //registro con éxito :)
-    //registro erroneo por contraseña inadecuada :)
-    //registro erroneo por usuario ya existe :)
-    //          agregar validacion mensaje de error :)
-    //registro erroneo por mail invalido :)
-    // registro erroneo por clave no coincide :)
-    //          encapsular los datos de registro en un objeto TODO
+    @BeforeEach
+    public void init(){
+        servicio = mock(ServicioRegistrarse.class);
+        controlador = new ControladorRegistrarse(servicio);
+    }
 
     @Test
     public void siElUsuarioNoExisteDeberiaPoderRegistrarse(){
         //preparación
         dadoQueNoExisteElUsuario(USUARIO);
 
+        DatosDeRegistro datos = new DatosDeRegistro(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword());
+
         //ejecución
-        cuandoRegistroElUsuarioConfirmandoClave(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword());
+        cuandoRegistroElUsuario(datos);
 
         //validación
         entoncesElUsuarioSeRegistra();
@@ -39,11 +48,13 @@ public class ControladorRegistrarseTest {
         //preparación
         dadoQueExisteElUsuario(USUARIO);
 
+        DatosDeRegistro datos = new DatosDeRegistro(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword());
+
         //ejecución
-        cuandoRegistroElUsuarioConfirmandoClave(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword());
+        cuandoRegistroElUsuario(datos);
 
         //validación
-        entoncesElUsuarioNoSeRegistraPor("usuario ya existe");
+        entoncesElUsuarioNoSeRegistraPor("Ya se registró un usuario con este email");
 
     }
 
@@ -52,11 +63,13 @@ public class ControladorRegistrarseTest {
         //preparación
         dadoQueNoExisteElUsuario(USUARIO);
 
+        DatosDeRegistro datos = new DatosDeRegistro(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword() + "0000");
+
         //ejecución
-        cuandoRegistroElUsuarioConfirmandoClave(USUARIO.getEmail(), USUARIO.getPassword(), USUARIO.getPassword() + "0000");
+        cuandoRegistroElUsuario(datos);
 
         //validación
-        entoncesElUsuarioNoSeRegistraPor("claves no coinciden");
+        entoncesElUsuarioNoSeRegistraPor("Las claves no coinciden");
 
     }
 
@@ -65,11 +78,13 @@ public class ControladorRegistrarseTest {
         //preparación
         dadoQueNoExisteElUsuario(USUARIO);
 
+        DatosDeRegistro datos = new DatosDeRegistro("constanza", USUARIO.getPassword(), USUARIO.getPassword());
+
         //ejecución
-        cuandoRegistroElUsuarioConfirmandoClave("constanza", USUARIO.getPassword(), USUARIO.getPassword());
+        cuandoRegistroElUsuario(datos);
 
         //validación
-        entoncesElUsuarioNoSeRegistraPor("email invalido");
+        entoncesElUsuarioNoSeRegistraPor("El email es inválido");
     }
 
     @Test
@@ -77,18 +92,20 @@ public class ControladorRegistrarseTest {
         //preparación
         dadoQueNoExisteElUsuario(USUARIO);
 
+        DatosDeRegistro datos = new DatosDeRegistro(USUARIO.getEmail(), "x", "x");
         //ejecución
-        cuandoRegistroElUsuarioConfirmandoClave(USUARIO.getEmail(), "x", "x");
+        cuandoRegistroElUsuario(datos);
 
         //validación
-        entoncesElUsuarioNoSeRegistraPor("contraseña invalida");
+        entoncesElUsuarioNoSeRegistraPor("El clave es inválida");
     }
 
-    private void cuandoRegistroElUsuarioConfirmandoClave(String email, String password, String confirmapass) {
-        mav = controladorRegistro.registrar(email, password, confirmapass);
+    private void cuandoRegistroElUsuario(DatosDeRegistro datos) {
+        mav = controlador.registrar(datos);
     }
 
     private void entoncesElUsuarioNoSeRegistraPor(String motivo) {
+
         assertThat(mav.getModel().get("registrado")).isEqualTo(Boolean.FALSE);
         assertThat(mav.getViewName()).isEqualTo("registro");
         assertThat(mav.getModel().get("error")).isEqualTo(motivo);
@@ -96,10 +113,15 @@ public class ControladorRegistrarseTest {
     }
 
     private void dadoQueExisteElUsuario(Usuario usuario) {
-        controladorRegistro.registrar(usuario.getEmail(),usuario.getPassword(), usuario.getPassword());
+        when(servicio.registrar(any())).thenThrow(UsuarioExistente.class);
     }
 
     private void dadoQueNoExisteElUsuario(Usuario usuario) {
+        DatosDeRegistro datosRegistro = new DatosDeRegistro();
+        datosRegistro.setEmail(usuario.getEmail());
+        datosRegistro.setPassword(usuario.getPassword());
+        datosRegistro.setConfirmaPassword(usuario.getPassword());
+        when(servicio.registrar(datosRegistro)).thenReturn(new Usuario());
     }
 
     private void entoncesElUsuarioSeRegistra() {
