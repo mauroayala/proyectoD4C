@@ -1,7 +1,8 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.modelo.Evaluacion;
-import ar.edu.unlam.tallerweb1.modelo.Ingrediente;  
+import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
+import ar.edu.unlam.tallerweb1.modelo.Plato;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioIngrediente;
 
 import java.util.List;
@@ -31,9 +32,12 @@ public class RepositorioEvaluacionImpl implements  RepositorioEvaluacion {
 
 	@Override
 	public List<Evaluacion> damePreguntas() {
+		
+
         final Session session = this.sessionFactory.getCurrentSession();
         return session.createCriteria(Evaluacion.class)
-                 .list();
+             //   .add( Restrictions.eq("id_evaluacion", (long) 11111 ) )
+                .list();
 	}
 	
  

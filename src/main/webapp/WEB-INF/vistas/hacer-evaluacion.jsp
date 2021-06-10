@@ -98,13 +98,13 @@
 						<div class="text px-4 pt-2">
  							<div class="faded">
  							
-				 <c:forEach var="preguntas" items="${preguntas}">
+				 <c:forEach var="preguntas" items="${preguntas}" >
 				 
 				<label><c:out value="${preguntas.pregunta}"/>
 				</label><br>
 				
 				<c:out value="${preguntas.respuesta_a}"/>
-				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="a" required><br>
+				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="a" ><br>
 				<c:out value="${preguntas.respuesta_b}"/>				
 				<input type="radio" name="pregunta${preguntas.id_evaluacion}" value="b"><br>
 

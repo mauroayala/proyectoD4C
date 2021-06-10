@@ -1,10 +1,12 @@
 package ar.edu.unlam.tallerweb1.controladores;
-
-import ar.edu.unlam.tallerweb1.SpringTest;     
+ 
+import ar.edu.unlam.tallerweb1.SpringTest;      
 //no hace falta extends SpringTest
 import ar.edu.unlam.tallerweb1.modelo.Diagnostico;
 import ar.edu.unlam.tallerweb1.modelo.Evaluacion;
 import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
+import ar.edu.unlam.tallerweb1.servicios.FaltanRespuestas;
+import ar.edu.unlam.tallerweb1.servicios.PreguntasVacias;
 import ar.edu.unlam.tallerweb1.servicios.ServicioDiagnostico;
 import ar.edu.unlam.tallerweb1.servicios.ServicioEvaluacion;
 import org.junit.Before;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,92 +41,17 @@ public class ControladorEvaluacionTest {
    @Before
    public void init() {
 	   servicioEvaluacion = mock(ServicioEvaluacion.class);
+	   servicioDiagnostico = mock(ServicioDiagnostico.class);
+	   
 	   controladorEvaluacion = new ControladorEvaluacion(servicioEvaluacion,servicioDiagnostico);
    }
    
-   
- //  @Test
-   @Transactional @Rollback
-   public void siTengorRespuestasPuedoEvaluar(){
-       ModelMap model = new ModelMap();
-
-
-		ArrayList<String> respuesta = new ArrayList();
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A"); 
-    	respuesta.add("A");  
-    	
-    	
-//       givenTengoRespuestas();
-        
-   	 String pregunta1 = "a";
-   	 String pregunta2= "a";
-   	 String pregunta3= "a";
-   	 String pregunta4= "a";
-   	 String pregunta5= "a";
-   	 String pregunta6= "a";
-   	 String pregunta7= "a";
-   	 String pregunta8= "a";
-   	 String pregunta9= "a";
-   	 String pregunta10= "a";
-   	 String pregunta11= "a";
-   	 String pregunta12= "a";
-   	 
-   	Diagnostico diagnostico = new Diagnostico(); 
-   	//tengo que hacer el teste de entity diagnostico
- //  	when(servicioDiagnostico.buscarDiagnostico(pregunta1, pregunta2, pregunta3, pregunta4, pregunta5, pregunta6, pregunta7, pregunta8, pregunta9, pregunta10, pregunta11, pregunta12).thenReturn(diagnostico);
-   	
-  // 	whenSepuedeBuscarDiagnostico();
-   	thanObtengoDiagnostico();
-   	
-   	
-   }
-   
-   
-	private void givenTengoRespuestas() {
-	 String pregunta1 = "a";
-	 String pregunta2= "a";
-	 String pregunta3= "a";
-	 String pregunta4= "a";
-	 String pregunta5= "a";
-	 String pregunta6= "a";
-	 String pregunta7= "a";
-	 String pregunta8= "a";
-	 String pregunta9= "a";
-	 String pregunta10= "a";
-	 String pregunta11= "a";
-	 String pregunta12= "a";
-	
-}
-
-
-	private void whenSepuedeBuscarDiagnostico(String pregunta1,String pregunta2,String pregunta3,String pregunta4, String pregunta5, String pregunta6, String pregunta7, String pregunta8, String pregunta9, String pregunta10, String pregunta11, String pregunta12) {
-		mav=controladorEvaluacion.verificoDiagnostico(pregunta1, pregunta2, pregunta3, pregunta4, pregunta5, pregunta6, pregunta7, pregunta8, pregunta9, pregunta10, pregunta11, pregunta12);		
-	}
-
-	private void thanObtengoDiagnostico() {
-		// TODO Auto-generated method stub
-		assertThat(mav.getViewName()).isEqualTo("muestro-diagnostico"); 
-	}
-
-
-
-	
-
+ 
 	
     @Test
     @Transactional
+    @Rollback
     public void siTengoPreguntasPuedoHacerUnTest(){
-    	//verifico que tenga preguntas y luego dejo que la persona haga el test
         ModelMap model = new ModelMap();
         String pregunta= "Pregunta"; 
         String respuesta_a= "respuesta_a"; 
@@ -133,7 +61,7 @@ public class ControladorEvaluacionTest {
         
   		List<Evaluacion> listaDePreguntas= new LinkedList<>();
  		
-  	//	listaDePreguntas.add(new Evaluacion(pregunta,respuesta_a,respuesta_b,respuesta_c));
+  		listaDePreguntas.add(new Evaluacion(pregunta,respuesta_a,respuesta_b,respuesta_c));
   		
     	when(servicioEvaluacion.buscarPreguntas()).thenReturn(listaDePreguntas);
     	
@@ -154,8 +82,62 @@ public class ControladorEvaluacionTest {
 	}
 
 
- 
+	
 
+    @Test
+    @Transactional
+    @Rollback
+    public void siNoTengoPreguntasNoPuedoHacerUnTest(){
+ 
+     	doThrow(PreguntasVacias.class)
+     	.when(servicioEvaluacion)
+     	.buscarPreguntas();
+  
+    	whenSepuedeBuscarPreguntas();
+    	thanVuelvoAlaHome();
+    	
+    	
+    }
+    
+ 
+	private void thanVuelvoAlaHome() {
+ 		assertThat(mav.getViewName()).isEqualTo("redirect:/index"); 
+		assertThat(mav.getModel().get("msj")).isEqualTo("Momentaneamente no contamos con preguntas para realizar el test."); 		
+
+	}
+	
+	
+ 
+	
+	
+	
+
+    @Test
+    @Transactional
+    @Rollback
+
+    public void siNoTengoRespuestasNoPuedoDarUnDiagnostico(){
+
+    	doThrow(FaltanRespuestas.class)
+     	.when(servicioDiagnostico)
+     	.buscarDiagnostico(null,null,null,null,null,null,null,null,null,null,null,null);
+     	
+ 
+     	whenBuscoDiagnostico();
+    	thanVuelvoAlasPreguntas();
+    	
+    	
+    }
+    
+	private void whenBuscoDiagnostico() {
+		mav=controladorEvaluacion.verificoDiagnostico(null,null,null,null,null,null,null,null,null,null,null,null);		
+	}
+
+	private void thanVuelvoAlasPreguntas() {
+ 		assertThat(mav.getViewName()).isEqualTo("redirect:/hacer-evaluacion"); 
+		assertThat(mav.getModel().get("msj")).isEqualTo("Debe completar todas las respuestar para poder hacer el test."); 		
+
+	}
 	
    
 }

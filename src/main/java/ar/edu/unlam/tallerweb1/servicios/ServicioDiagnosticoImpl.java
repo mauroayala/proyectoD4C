@@ -60,9 +60,16 @@ public class ServicioDiagnosticoImpl implements ServicioDiagnostico {
     	respuesta.add(pregunta10); 
     	respuesta.add(pregunta11); 
     	respuesta.add(pregunta12);  
-
+    	
+     	
+   
+    	
     	for(int i = 0; i < respuesta.size(); i++) {
-             String e = respuesta.get(i);
+           // e es null  
+          	if(respuesta.get(i)==null){
+    			throw new FaltanRespuestas(); 
+        	}
+    String e = respuesta.get(i);
      	if (e.equals("a")) {
     			respuestas_a++;
     		} 
@@ -74,9 +81,7 @@ public class ServicioDiagnosticoImpl implements ServicioDiagnostico {
       		}
     	  }
     	Integer totalRespuestas=respuestas_c+respuestas_b+respuestas_a;
-    	if(!totalRespuestas.equals(12)) {
-			throw new FaltanRespuestas(); 
-    	}
+ 
     	
     	if (respuestas_a.equals(respuestas_b)) {
        	     valora =1;    		

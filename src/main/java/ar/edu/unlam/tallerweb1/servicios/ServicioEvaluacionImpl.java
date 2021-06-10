@@ -35,7 +35,15 @@ public class ServicioEvaluacionImpl implements ServicioEvaluacion {
     
 	@Override
 	public List<Evaluacion> buscarPreguntas() {
-	    return repositorioEvaluacion.damePreguntas();
+		List<Evaluacion> preguntas=repositorioEvaluacion.damePreguntas();
+		
+ 		if(preguntas.size()==0) {
+			throw new PreguntasVacias();
+		} 
+ 		else {
+  		return preguntas;
+ 		}
+  		
 	}
 
   

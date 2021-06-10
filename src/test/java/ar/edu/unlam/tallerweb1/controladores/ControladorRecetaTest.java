@@ -117,8 +117,7 @@ public class ControladorRecetaTest  {
 	}
 
 	private void thanObtengoRecetaVacia() {
-		// TODO Auto-generated method stub
-		assertThat(mav.getModel().get("receta")).isNull();
+ 		assertThat(mav.getModel().get("receta")).isNull();
 		assertThat(mav.getViewName()).isEqualTo("ver-receta"); 
 	}
 	

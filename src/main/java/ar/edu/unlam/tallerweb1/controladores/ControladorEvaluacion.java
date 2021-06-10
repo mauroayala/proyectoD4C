@@ -4,7 +4,10 @@ import ar.edu.unlam.tallerweb1.modelo.Diagnostico;
 import ar.edu.unlam.tallerweb1.modelo.Ingrediente;
 import ar.edu.unlam.tallerweb1.modelo.Plato;
 import ar.edu.unlam.tallerweb1.modelo.Receta;
+import ar.edu.unlam.tallerweb1.servicios.FaltanRespuestas;
+import ar.edu.unlam.tallerweb1.servicios.IngredientesVacios;
 import ar.edu.unlam.tallerweb1.servicios.PlatoVacio;
+import ar.edu.unlam.tallerweb1.servicios.PreguntasVacias;
 import ar.edu.unlam.tallerweb1.servicios.ServicioEvaluacion;
 import ar.edu.unlam.tallerweb1.servicios.ServicioDiagnostico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +44,18 @@ public class ControladorEvaluacion{
 
     @RequestMapping(path = "hacer-evaluacion")
   public ModelAndView hacerEvaluacion(@RequestParam(value = "msj", required = false) String msj) {
-
-
       ModelMap model = new ModelMap();
 
-      
+      try {
       model.put("preguntas",servicioEvaluacion.buscarPreguntas());
       model.put("msj",msj);
       return new  ModelAndView("hacer-evaluacion",model);
+      }catch(PreguntasVacias e){
+ 		 model.put("msj","Momentaneamente no contamos con preguntas para realizar el test.");
+		 return new ModelAndView("redirect:/index",model);
+		 
+	 }
+      
       
 	}
 
@@ -56,20 +63,19 @@ public class ControladorEvaluacion{
     
     
       @RequestMapping(path = "verifico-Diagnostico")
-    public ModelAndView verificoDiagnostico(@RequestParam("pregunta1") String pregunta1,@RequestParam("pregunta2") String pregunta2,@RequestParam("pregunta3") String pregunta3,@RequestParam("pregunta4") String pregunta4,@RequestParam("pregunta5") String pregunta5,@RequestParam("pregunta6") String pregunta6,@RequestParam("pregunta7") String pregunta7,@RequestParam("pregunta8") String pregunta8,@RequestParam("pregunta9") String pregunta9,@RequestParam("pregunta10") String pregunta10,@RequestParam("pregunta11") String pregunta11,@RequestParam("pregunta12") String pregunta12){
+    public ModelAndView verificoDiagnostico(@RequestParam(value="pregunta1", required = false) String pregunta1,@RequestParam(value="pregunta2", required = false) String pregunta2,@RequestParam(value="pregunta3", required = false) String pregunta3,@RequestParam(value="pregunta4", required = false) String pregunta4,@RequestParam(value="pregunta5", required = false) String pregunta5,@RequestParam(value="pregunta6", required = false) String pregunta6,@RequestParam(value="pregunta7", required = false) String pregunta7,@RequestParam(value="pregunta8", required = false) String pregunta8,@RequestParam(value="pregunta9", required = false) String pregunta9,@RequestParam(value="pregunta10", required = false) String pregunta10,@RequestParam(value="pregunta11", required = false) String pregunta11,@RequestParam(value="pregunta12", required = false) String pregunta12){
 
           ModelMap model = new ModelMap();
           //SERVICIO TIENE QUE DISPARAR UNA EXEPCION CUANDO NO COMPLETA TODOS LOS CAMPOS
           try {
         	  Diagnostico resultadoDiagnostico=  servicioDiagnostico.buscarDiagnostico(pregunta1,pregunta2,pregunta3,pregunta4,pregunta5,pregunta6,pregunta7,pregunta8,pregunta9,pregunta10,pregunta11,pregunta12); 
- 
                model.put("resultado",resultadoDiagnostico);
               return new ModelAndView("ver-resultado", model);
 
           } 
-          catch (PlatoVacio p){
-              model.put("msj","No se encontro una receta para el plato.");
-              return new ModelAndView("ver-receta", model);
+          catch (FaltanRespuestas p){
+              model.put("msj","Debe completar todas las respuestar para poder hacer el test.");
+      		 return new ModelAndView("redirect:/hacer-evaluacion",model);
 
           }
  	}
