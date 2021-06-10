@@ -1,5 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class DatosIMC {
 
     private Double altura;

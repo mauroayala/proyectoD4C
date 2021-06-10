@@ -1,13 +1,24 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.DatosIMC;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioImpl;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @Service("ServicioCalcularIMC")
 @Transactional
 
 public class ServicioIMCImpl implements ServicioCalcularIMC {
+
+    private SessionFactory sessionFactory;
+    private RepositorioUsuario repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
+    private HttpServletRequest request;
 
     @Override
     public DatosIMC calcularImcCompleto(Double altura, Double peso) {
@@ -32,8 +43,12 @@ public class ServicioIMCImpl implements ServicioCalcularIMC {
         }else if(IMC >= 30.0){
             compCorporal = "Obeso";
         }
+        DatosIMC datos = new DatosIMC(altura,peso,IMC,compCorporal);
+        String email = (String) request.getSession().getAttribute("usuarioEmail");
+        Usuario usuario = repositorioUsuario.buscarPorEmail(email);
+        repositorioUsuario.guardarDatosIMC(usuario, datos);
 
-        return new DatosIMC(altura,peso,IMC,compCorporal);
+        return datos;
     }
     @Override
     public Boolean validarAltura(Double altura) {

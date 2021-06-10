@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import ar.edu.unlam.tallerweb1.modelo.DatosIMC;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,16 +41,43 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 		sessionFactory.getCurrentSession().save(usuario);
 	}
 
-	@Override
-	public Usuario buscar(String email) {
-		return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
-				.add(Restrictions.eq("email", email))
-				.uniqueResult();
-	}
 
 	@Override
 	public void modificar(Usuario usuario) {
 		sessionFactory.getCurrentSession().update(usuario);
+	}
+
+	@Override
+	public void guardarDatosIMC(Usuario usuario, DatosIMC datos) {
+
+    	usuario.setAltura(datos.getAltura());
+    	usuario.setPeso(datos.getPeso());
+    	usuario.setIMC(datos.getIMC());
+    	usuario.setCompCorporal(datos.getCompCorporal());
+		sessionFactory.getCurrentSession().save(usuario);
+	}
+
+	@Override
+	public Usuario buscarDatosIMC(Usuario usuario) {
+		return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+				.add(Restrictions.eq("altura", usuario.getAltura()))
+				.add(Restrictions.eq("peso", usuario.getPeso()))
+				.add(Restrictions.eq("IMC", usuario.getIMC()))
+				.add(Restrictions.eq("compCorporal", usuario.getCompCorporal()))
+				.uniqueResult();
+	}
+
+	@Override
+	public Usuario buscarPorId(Long id) {
+		return sessionFactory.getCurrentSession().get(Usuario.class,id);
+	}
+
+	@Override
+	public Usuario buscarPorEmail(String email) {
+
+		return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+		.add(Restrictions.eq("email", email))
+		.uniqueResult();
 	}
 
 }
